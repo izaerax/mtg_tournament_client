@@ -57,8 +57,9 @@ const form = ref<LoginFormRequest>({
 });
 
 const onSubmit = async () => {
-  await authStore.login(form.value);
-  router.push({ name: 'Homepage' });
+  if (await authStore.login(form.value)) {
+    router.push({ name: 'Homepage' });
+  }
 };
 
 const onRegister = () => {

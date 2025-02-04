@@ -10,9 +10,26 @@
           <q-input
             v-model="registerForm.name"
             name="name"
+            label="Nome account"
+            outlined
+            class="q-mb-md"
+            :rules="[(val) => (val && val.length > 0) || 'Campo richiesto']"
+          />
+          <q-input
+            v-model="registerForm.firstname"
+            name="firstname"
             label="Nome"
             outlined
             class="q-mb-md"
+            :rules="[(val) => (val && val.length > 0) || 'Campo richiesto']"
+          />
+          <q-input
+            v-model="registerForm.lastname"
+            name="lastname"
+            label="Cognome"
+            outlined
+            class="q-mb-md"
+            :rules="[(val) => (val && val.length > 0) || 'Campo richiesto']"
           />
           <q-input
             type="email"
@@ -21,6 +38,7 @@
             label="Email"
             outlined
             class="q-mb-md"
+            :rules="[(val) => (val && val.length > 0) || 'Campo richiesto']"
           />
           <q-input
             type="password"
@@ -29,6 +47,7 @@
             name="password"
             label="Password"
             class="q-mb-md"
+            :rules="[(val) => (val && val.length > 0) || 'Campo richiesto']"
           />
           <q-input
             type="password"
@@ -37,6 +56,7 @@
             name="password_confirmation"
             label="Conferma password"
             class="q-mb-lg"
+            :rules="[(val) => (val && val.length > 0) || 'Campo richiesto']"
           />
           <q-btn
             type="submit"
@@ -64,12 +84,17 @@ const router = useRouter();
 const registerForm = ref<RegisterFormRequest>({
   name: '',
   email: '',
+  firstname: '',
+  lastname: '',
+  dci_number: 0,
   password: '',
   password_confirmation: '',
 });
 
 const onSubmit = async () => {
-  await authStore.register(registerForm.value);
+  if (await authStore.register(registerForm.value)) {
+    router.push({ name: 'Homepage' });
+  }
 };
 
 const onLogin = async () => {
