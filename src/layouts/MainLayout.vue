@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="hHh Lpr lFr">
     <q-header elevated>
       <q-toolbar>
         <q-btn
@@ -12,10 +12,8 @@
         />
 
         <q-toolbar-title>
-          Quasar App
+          Torneo EBT
         </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
       </q-toolbar>
     </q-header>
 
@@ -28,7 +26,6 @@
         <q-item-label
           header
         >
-          Essential Links
         </q-item-label>
 
         <EssentialLink
@@ -48,49 +45,42 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import EssentialLink, { EssentialLinkProps } from 'components/EssentialLink.vue';
+import { useAuthStore } from 'src/stores/auth-store';
+import { useRouter } from 'vue-router';
+
+const authStore = useAuthStore();
+const router = useRouter();
 
 const essentialLinks: EssentialLinkProps[] = [
   {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
+    title: 'Homepage',
+    caption: 'Panoramica dei tornei e leghe',
+    icon: 'dashboard',
+    action: linkAction('Homepage')
   },
   {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
+    title: 'Nuova Lega',
+    caption: 'Inizia una lega composta da tornei',
+    icon: 'add',
+    action: linkAction('NewLeague')
   },
   {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
+    title: 'Giocatori',
+    caption: 'Gestione dei giocatori registrati',
+    icon: 'group',
+    action: linkAction('Players')
   },
   {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
+    title: 'Profilo',
+    caption: 'Gestione del profilo utente',
+    icon: 'person',
+    action: linkAction('Profile')
   },
   {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
+    title: 'Logout',
+    caption: 'Disconnettiti dalla piattaforma',
+    icon: 'logout',
+    action: logout
   }
 ];
 
@@ -98,5 +88,15 @@ const leftDrawerOpen = ref(false)
 
 function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value
+}
+
+
+function linkAction(routeName: string) {
+  return () => router.push({name: routeName});
+}
+
+function logout() {
+  authStore.logout()
+  router.push({name: 'Login'})
 }
 </script>

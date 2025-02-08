@@ -1,6 +1,6 @@
 <template>
-  <main class="window-height row justify-center items-center">
-    <q-card flat bordered class="login-card q-py-md">
+  <q-page  class="window-height row justify-center items-center">
+    <q-card bordered class="login-card q-py-md">
       <q-card-section>
         <div class="text-h6 text-center q-pt-xs">EBT Tournament</div>
       </q-card-section>
@@ -40,7 +40,7 @@
         </q-form>
       </q-card-section>
     </q-card>
-  </main>
+  </q-page>
 </template>
 
 <script setup lang="ts">
@@ -70,5 +70,12 @@ const onRegister = () => {
 <style lang="scss">
 .login-card {
   min-width: 330px;
+}
+
+main {
+  background-image: url("background.jpg");
+  background-repeat: no-repeat, no-repeat;
+  background-size: cover;
+  background-origin: padding-box;
 }
 </style>
