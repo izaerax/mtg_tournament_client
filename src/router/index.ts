@@ -48,7 +48,7 @@ export default route(function (/* { store, ssrContext } */) {
   // redirect to login
   Router.beforeEach((to, from, next) => {
     const authStore = useAuthStore();
-    if (!isPublicRoute(to.name) && !authStore.isAuthenticated)
+    if (!isPublicRoute(to.name) && !authStore.isAuthenticated())
       next({ name: 'Login' });
     else next();
   });

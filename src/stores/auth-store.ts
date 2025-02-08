@@ -1,6 +1,7 @@
 import { AxiosError } from 'axios';
 import { defineStore } from 'pinia';
 import { api } from 'src/boot/axios';
+import { ref } from 'vue';
 
 export interface LoginFormRequest {
   email: string;
@@ -17,74 +18,84 @@ export interface RegisterFormRequest {
   password_confirmation: string;
 }
 
-export const useAuthStore = defineStore('auth', {
-  state: () => ({
-    name: '',
-    email: '',
-    password: '',
-    firstname: '',
-    lastname: '',
-    dci_number: 0,
-    token: '',
-  }),
+export const useAuthStore = defineStore('auth', () => {
+  const name = ref('')
+  const email = ref('')
+  const password = ref('')
+  const firstname = ref('')
+  const lastname = ref('')
+  const dci_number = ref(0)
+  const token = ref('')
 
-  getters: {
-    username: (state) => state.email,
-    isAuthenticated: (state) => state.token != '',
-  },
+  const isAuthenticated = () => token.value !== ''
 
-  actions: {
-    logout() {
-      this.name = '';
-      this.email = '';
-      this.password = '';
-      this.firstname = '';
-      this.lastname = '';
-      this.dci_number = 0;
-      this.token = '';
-    },
+  const logout = () => {
+    name.value = '';
+    email.value = '';
+    password.value = '';
+    firstname.value = '';
+    lastname.value = '';
+    dci_number.value = 0;
+    token.value = '';
+  }
 
-    async login(form: LoginFormRequest): Promise<boolean> {
-      try {
-        const resp = await api.post('/login', form);
-        this.name = resp.data.name;
-        this.firstname = resp.data.firstname;
-        this.lastname = resp.data.lastname;
-        this.email = resp.data.email;
-        this.dci_number = resp.data.dci_number;
-        this.token = resp.data.token;
-        return true;
-      } catch (e) {
-        console.debug(e);
-        if (e instanceof AxiosError) {
-          alert(e.response?.data.message);
-          console.error(e.response?.data.message);
-        } else {
-          alert('errore durante la login');
-        }
-        return false;
+  const login = async (form: LoginFormRequest): Promise<boolean> => {
+    try {
+      const resp = await api.post('/login', form);
+      name.value = resp.data.name;
+      firstname.value = resp.data.firstname;
+      lastname.value = resp.data.lastname;
+      email.value = resp.data.email;
+      dci_number.value = resp.data.dci_number;
+      token.value = resp.data.token;
+      return true;
+    } catch (e) {
+      if (e instanceof AxiosError) {
+        alert(e.response?.data.message);
+        console.error(e.response?.data.message);
+      } else {
+        alert('errore durante la login');
       }
-    },
+      return false;
+    }
+  }
 
-    async register(form: RegisterFormRequest): Promise<boolean> {
-      try {
-        const resp = await api.post('/register', form);
-        this.name = resp.data.name;
-        this.firstname = resp.data.firstname;
-        this.lastname = resp.data.lastname;
-        this.email = resp.data.email;
-        this.dci_number = resp.data.dci_number;
-        this.token = resp.data.token;
-        return true;
-      } catch (e) {
-        if (e instanceof AxiosError) {
-          alert(e.response?.data.message);
-          console.error(e.response?.data.message);
-        } else {
-          alert('errore durante la registrazione');
-        }
-        return false;
+  const register = async (form: RegisterFormRequest): Promise<boolean> => {
+    try {
+      const resp = await api.post('/register', form);
+      name.value = resp.data.name;
+      firstname.value = resp.data.firstname;
+      lastname.value = resp.data.lastname;
+      email.value = resp.data.email;
+      dci_number.value = resp.data.dci_number;
+      token.value = resp.data.token;
+      return true;
+    } catch (e) {
+      if (e instanceof AxiosError) {
+        alert(e.response?.data.message);
+        console.error(e.response?.data.message);
+      } else {
+        alert('errore durante la registrazione');
       }
-    },
-  },
+      return false;
+    }
+  }
+
+  return {
+    name,
+    email,
+    password,
+    firstname,
+    lastname,
+    dci_number,
+    token,
+    login,
+    logout,
+    register,
+    isAuthenticated
+  }
+},{
+  persist: {
+    storage: sessionStorage,
+  }
 });
