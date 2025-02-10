@@ -56,7 +56,7 @@ export const useAuthStore = defineStore('auth', () => {
       } else {
         alert('errore durante la login');
       }
-      return false;
+    return false;
     }
   }
 
