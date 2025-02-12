@@ -9,7 +9,10 @@ export interface Tournament {
   date: string,
   rounds: number,
   games: number,
-  duration: number
+  duration: number,
+  winner: string,
+  prize: string,
+  players: number
 }
 
 export interface League {

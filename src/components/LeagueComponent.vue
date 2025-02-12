@@ -1,20 +1,22 @@
 <template>
   <q-card bordered flat>
-    <q-card-section>
-      <h3 class="text-h6">{{ league.name }}</h3>
+    <q-card-section class="q-py-none">
+      <h3 class="text-h6 text-primary">{{ league.name }}</h3>
     </q-card-section>
 
-    <q-card-section>
+    <q-card-section class="q-pa-none">
       <q-table
+        class="q-pa-none q-ma-none"
         title="Tappe"
         :rows="league.tournaments"
         :columns="tournamentColumns"
         hide-pagination
+        flat
       />
     </q-card-section>
 
     <q-card-actions align="right">
-      <q-btn class="primary" label="nuova tappa" />
+      <q-btn color="primary" label="nuova tappa" />
     </q-card-actions>
   </q-card>
 </template>
@@ -26,25 +28,30 @@ defineProps<{league: League}>()
 
 const tournamentColumns: QTableColumn[] = [
   {
-    field: 'id',
-    label: 'ID',
-    name: 'id',
-  },{
     field: 'date',
     label: 'Data',
     name: 'date',
+    align: 'left',
+    format: (val) => (new Date(val)).toLocaleDateString()
   },{
-    field: 'rounds',
-    label: 'Rounds',
-    name: 'rounds',
-  },{
-    field: 'games',
-    label: 'Games',
-    name: 'games',
+    field: 'playersCount',
+    label: 'Iscritti',
+    name: 'playersCount',
   },{
     field: 'duration',
-    label: 'Tempo',
+    label: 'Tempo round',
     name: 'duration',
+    format: (val) => `${val} min`
+  },{
+    field: 'prize',
+    label: 'Montepremi',
+    name: 'prize',
+    format: (val) => `${val || '-'} €`
+  },{
+    field: 'winner',
+    label: 'Vincitore',
+    name: 'winner',
+    format: (val) => `${val || ''}`
   },
 ]
 </script>
