@@ -46,9 +46,13 @@
 import { ref } from 'vue';
 import EssentialLink, { EssentialLinkProps } from 'components/EssentialLink.vue';
 import { useAuthStore } from 'src/stores/auth-store';
+import { useLeagueStore } from 'src/stores/league-store'
 import { useRouter } from 'vue-router';
+import { Dialog } from 'quasar';
+import NewLeagueDialog from 'components/NewLeagueDialog.vue';
 
 const authStore = useAuthStore();
+const leagueStore = useLeagueStore();
 const router = useRouter();
 
 const essentialLinks: EssentialLinkProps[] = [
@@ -62,7 +66,7 @@ const essentialLinks: EssentialLinkProps[] = [
     title: 'Nuova Lega',
     caption: 'Inizia una lega composta da tornei',
     icon: 'add',
-    action: linkAction('NewLeague')
+    action: newLeague
   },
   {
     title: 'Giocatori',
@@ -93,6 +97,15 @@ function toggleLeftDrawer() {
 
 function linkAction(routeName: string) {
   return () => router.push({name: routeName});
+}
+
+function newLeague() {
+  Dialog.create({
+    component: NewLeagueDialog,
+    componentProps: {
+      persistent: true,
+    }
+  }).onOk(leagueStore.loadList)
 }
 
 function logout() {

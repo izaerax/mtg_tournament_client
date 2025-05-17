@@ -50,13 +50,8 @@ export const useAuthStore = defineStore('auth', () => {
       token.value = resp.data.token;
       return true;
     } catch (e) {
-      if (e instanceof AxiosError) {
-        alert(e.response?.data.message);
-        console.error(e.response?.data.message);
-      } else {
-        alert('errore durante la login');
-      }
-    return false;
+      handleError(e)
+      return false;
     }
   }
 
@@ -71,14 +66,19 @@ export const useAuthStore = defineStore('auth', () => {
       token.value = resp.data.token;
       return true;
     } catch (e) {
-      if (e instanceof AxiosError) {
-        alert(e.response?.data.message);
-        console.error(e.response?.data.message);
-      } else {
-        alert('errore durante la registrazione');
-      }
+      handleError(e)
       return false;
     }
+  }
+
+  const handleError = (e: unknown) => {
+    if (e instanceof AxiosError) {
+      alert(e.response?.data.message);
+      console.error(e.response?.data.message);
+    } else {
+      alert('errore durante la registrazione');
+    }
+    return false;
   }
 
   return {

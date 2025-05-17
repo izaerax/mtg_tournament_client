@@ -16,6 +16,11 @@ const routes: RouteRecordRaw[] = [
         component: () => import('pages/NewLeaguePage.vue')
       },
       {
+        path: 'new-tournament',
+        name: 'NewTournament',
+        component: () => import('pages/NewTournamentPage.vue')
+      },
+      {
         path: 'players',
         name: 'Players',
         component: () => import('pages/PlayersPage.vue')

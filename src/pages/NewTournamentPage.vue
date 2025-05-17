@@ -20,7 +20,8 @@
     </q-form>
   </q-page>
 </template>
-<script setup lang="ts">
+
+<script lang="ts" setup>
 import { AxiosError } from 'axios';
 import { api } from 'src/boot/axios';
 import { useAuthStore } from 'src/stores/auth-store';
@@ -60,6 +61,5 @@ const onCancel = () => {
 }
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<script lang="scss" scoped>
+</script>

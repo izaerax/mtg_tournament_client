@@ -16,7 +16,7 @@
     </q-card-section>
 
     <q-card-actions align="right">
-      <q-btn color="primary" label="nuova tappa" />
+      <q-btn color="primary" label="nuova tappa" @click="openCreateTournamentDialog"/>
     </q-card-actions>
   </q-card>
 </template>
@@ -54,8 +54,11 @@ const tournamentColumns: QTableColumn[] = [
     format: (val) => `${val || ''}`
   },
 ]
+
+const openCreateTournamentDialog = () => {
+  console.log()
+}
 </script>
 
 <style lang="scss">
-
 </style>
